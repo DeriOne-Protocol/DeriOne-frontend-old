@@ -25,17 +25,23 @@ export const Form = styled.form`
   margin-bottom: 10px;
   outline-color: green;
   display: block;
-  background: rgb(238, 174, 202);
-  background: radial-gradient(
-    circle,
-    rgba(238, 174, 202, 1) 0%,
-    rgba(148, 187, 233, 1) 100%
+  background: rgb(182, 182, 182);
+  background: linear-gradient(
+    189deg,
+    rgba(182, 182, 182, 1) 0%,
+    rgba(255, 255, 255, 1) 100%
   );
+  border-radius: 5px;
+  padding: 10px;
 `
 export const Input = styled.input`
   margin: 5px;
-  border-radius: 2px;
+  border-radius: 6px;
   border: 1px solid blue;
+  padding: 0 14px;
+  width: 100%;
+  outline: none;
+  height: 44px;
 
   &:focus {
     outline-color: blue;
