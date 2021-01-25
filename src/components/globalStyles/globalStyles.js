@@ -12,7 +12,7 @@ export default createGlobalStyle`
         height: 100%;
         line-height: 1.6;
         background: url(${BG}) no-repeat center center/cover;
-
+        
     }
 
     * {
