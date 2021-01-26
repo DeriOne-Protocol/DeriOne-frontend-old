@@ -2,6 +2,7 @@ import React from "react"
 import RangeDropdown from "../rangeDropdown"
 import Button from "../button"
 import { Div, PickerDiv, Form, Input, ButtonStyle } from "./pickerSection.style"
+import { Link } from "react-router-dom"
 
 const PickerSection = () => {
   return (
@@ -33,7 +34,9 @@ const PickerSection = () => {
             </div>
 
             <div>
-              <ButtonStyle>Submit</ButtonStyle>
+              <Link to="/table">
+                <ButtonStyle>Submit</ButtonStyle>
+              </Link>
             </div>
           </Form>
         </PickerDiv>
