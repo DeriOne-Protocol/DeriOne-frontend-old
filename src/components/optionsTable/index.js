@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react"
+import React, { useState, useContext, useEffect } from "react"
 import { Table } from "./optionsTable.style"
 import {
   expiryDateContext,
@@ -7,47 +7,38 @@ import {
   strikePriceContext,
 } from "../../contexts/TableDataContext"
 
+const optionsData = [
+  {
+    Protocol: "Hegic",
+    ExpiryDate: "40%",
+    OptionSize: "$900",
+    Premium: "$1000",
+    StrikePrice: "$500",
+  },
+]
+
 const OptionsTable = () => {
   const expiryDate = useContext(expiryDateContext)
   const optionSize = useContext(optionSizeContext)
   const premium = useContext(premiumContext)
   const strikePrice = useContext(strikePriceContext)
 
-  const optionsData = [
-    {
-      Protocol: "Hegic",
-      ExpiryDate: "40%",
-      OptionSize: "$900",
-      Premium: "$1000",
-      StrikePrice: "$500",
-    },
-  ]
-  console.log(optionsData)
-  const [data, setData] = useState([
-    {
-      Protocol: "Hegic",
-      ExpiryDate: "40%",
-      OptionSize: "$900",
-      Premium: "$1000",
-      StrikePrice: "$700",
-    },
-  ])
+  const [data, setData] = useState([])
 
-  const updateTable = async () => {
-    const newTable = optionsData.map(
-      (values) => (
-        (values.ExpiryDate = { expiryDate }),
-        (values.OptionSize = { optionSize }),
-        (values.Premium = { premium }),
-        (values.StrikePrice = { strikePrice })
-      )
-    )
+  useEffect(() => {
+    const newTable = optionsData.map((values) => {
+      return {
+        ExpiryDate: expiryDate,
+        OptionSize: optionSize,
+        Premium: premium,
+        StrikePrice: strikePrice,
+      }
+    })
 
-    console.log(newTable)
-    console.log(premium)
     setData(newTable)
+
     return newTable
-  }
+  }, [expiryDate, optionSize, premium, strikePrice])
 
   return (
     <>
@@ -66,15 +57,14 @@ const OptionsTable = () => {
           {data.map((x) => (
             <tr key={x}>
               <td>{x.Protocol}</td>
-              <td>{x.expiryDate}</td>
-              <td>{x.optionSize}</td>
-              <td>{x.premium}</td>
-              <td>{x.strikePrice}</td>
+              <td>{x.ExpiryDate}</td>
+              <td>{x.OptionSize}</td>
+              <td>{x.Premium}</td>
+              <td>{x.StrikePrice}</td>
             </tr>
           ))}
         </tbody>
       </Table>
-      <button onClick={updateTable}>dd</button>
     </>
   )
 }

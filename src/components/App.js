@@ -60,7 +60,7 @@ function App() {
   }, [ethPrice])
 
   const getOptionsList = async (e) => {
-    e.preventDefault()
+    //e.preventDefault()
 
     let theCheapestETHPutOption = await contract.getTheCheapestETHPutOption(
       24 * 3600, // 24 hours from now in seconds
@@ -69,20 +69,30 @@ function App() {
       "9000000000000000000"
     )
 
-    console.log("theCheapestETHPutOption ==>", theCheapestETHPutOption)
+    //console.log("theCheapestETHPutOption ==>", theCheapestETHPutOption)
 
     setExpiryDate(theCheapestETHPutOption.expiry.toString())
     setOptionSize(theCheapestETHPutOption.optionSizeInWEI.toString())
     setPremium(theCheapestETHPutOption.premiumInWEI.toString())
     setStrikePrice(theCheapestETHPutOption.strikeInUSD.toString())
-
-    console.log(strikePrice)
   }
 
   const tester = async (e) => {
     e.preventDefault()
-    let log = await contract.testing(6)
-    console.log(log.toString())
+
+    let theCheapestETHPutOption = await contract.getTheCheapestETHPutOption(
+      24 * 3600, // 24 hours from now in seconds
+      500000000000, // USD price decimals are 8 in hegic
+      90000000000, // USD price decimals are 8 in hegic
+      "6000000000000000000"
+    )
+
+    //console.log("theCheapestETHPutOption ==>", theCheapestETHPutOption)
+
+    setExpiryDate(theCheapestETHPutOption.expiry.toString())
+    setOptionSize(theCheapestETHPutOption.optionSizeInWEI.toString())
+    setPremium(theCheapestETHPutOption.premiumInWEI.toString())
+    setStrikePrice(theCheapestETHPutOption.strikeInUSD.toString())
   }
 
   const testersss = async (e) => {
@@ -105,8 +115,8 @@ function App() {
           <Header price={ethPrice} />
 
           <Content>
-            <PickerSection />
-            <button onClick={getOptionsList}>hu</button>
+            <PickerSection getOptionsList={getOptionsList} />
+            <button onClick={tester}>hu</button>
             <OptionsTable />
           </Content>
         </BrowserRouter>
