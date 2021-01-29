@@ -22,4 +22,5 @@ export default createGlobalStyle`
         font-family: 'Didact Gothic', sans-serif;
     }
 
+
 `
