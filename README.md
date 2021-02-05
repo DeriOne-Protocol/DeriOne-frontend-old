@@ -13,6 +13,8 @@ npx hardhat node --fork https://eth-mainnet.alchemyapi.io/v2/YOUR_ALCHEMY_ID
  npx hardhat run --network localhost scripts/deploy.js
 ```
 
+\*you might have to comment out the `blockNumber` config in the hardhat config file. Otherwise, you will get something like "Received invalid block tag 11734835. Latest block number is 11734834."
+
 3. Run your frontend app in this repo
 
 ```
