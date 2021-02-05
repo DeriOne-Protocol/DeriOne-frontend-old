@@ -25,6 +25,13 @@ const OptionsTable = () => {
 
   const [data, setData] = useState([])
 
+  const formatDollar = (number, maximumSignificantDigits) =>
+    new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      maximumSignificantDigits,
+    }).format(number)
+
   useEffect(() => {
     const newTable = optionsData.map((values) => {
       return {
@@ -60,7 +67,7 @@ const OptionsTable = () => {
               <td>{x.ExpiryDate}</td>
               <td>{x.OptionSize}</td>
               <td>{x.Premium}</td>
-              <td>{x.StrikePrice}</td>
+              <td>{`$${x.StrikePrice / 10 ** 8}`}</td>
             </tr>
           ))}
         </tbody>
