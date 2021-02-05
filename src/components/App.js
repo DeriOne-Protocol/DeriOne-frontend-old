@@ -8,7 +8,9 @@ import styled from "styled-components"
 import coingecko from "../apis/coingecko"
 import { BrowserRouter, Route, Switch } from "react-router-dom"
 import { Contract, ethers } from "ethers"
-import DeriOne from "../contracts/DeriOneV1Main.sol/DeriOneV1Main.json"
+import DeriOneV1Main from "../contracts/DeriOneV1Main.sol/DeriOneV1Main.json"
+import DeriOneV1CharmV02 from "../contracts/DeriOneV1CharmV02.sol/DeriOneV1CharmV02.json"
+import DeriOneV1HegicV888 from "../contracts/DeriOneV1HegicV888.sol/DeriOneV1HegicV888.json"
 import { TableDataContext } from "../contexts/TableDataContext"
 
 const Div = styled.div`
@@ -22,7 +24,9 @@ const Div = styled.div`
 
 function App() {
   const [ethPrice, setEthPrice] = useState(undefined)
-  const [contract, setContract] = useState(undefined)
+  const [deriOneV1MainContract, setDeriOneV1Main] = useState(undefined)
+  const [deriOneV1CharmV02, setDeriOneV1CharmV02Contract] = useState(undefined)
+  const [deriOneV1HegicV888Contract, setDeriOneV1HegicV888Contract] = useState(undefined)
   const [account, setAccount] = useState(undefined)
   const [expiryDate, setExpiryDate] = useState(1)
   const [optionSize, setOptionSize] = useState(1)
@@ -43,9 +47,13 @@ function App() {
       const signer = await provider.getSigner()
       const signerAddress = await signer.getAddress()
 
-      const deriOne = new Contract(contractAddress, DeriOne.abi, signer)
+      const deriOneV1Main = new Contract(contractAddress, DeriOneV1Main.abi, provider)
+      const deriOneV1CharmV02 = new Contract(contractAddress, DeriOneV1CharmV02.abi, provider)
+      const deriOneV1HegicV888 = new Contract(contractAddress, DeriOneV1HegicV888.abi, provider)
+      setDeriOneV1Main(deriOneV1Main)
+      setDeriOneV1CharmV02Contract(deriOneV1CharmV02)
+      setDeriOneV1HegicV888Contract(deriOneV1HegicV888)
       console.log(signerAddress)
-      setContract(deriOne)
       setAccount(signer)
     }
     init()
@@ -62,14 +70,17 @@ function App() {
   const getOptionsList = async (e) => {
     //e.preventDefault()
 
-    let theCheapestETHPutOption = await contract.getTheCheapestETHPutOption(
-      24 * 3600, // 24 hours from now in seconds
-      100000000000, // USD price decimals are 8 in hegic
-      150000000000, // USD price decimals are 8 in hegic
-      "12000000000000000000"
-    )
+    console.log('deriOneV1CharmV02 ==>', deriOneV1CharmV02);
 
-    //console.log("theCheapestETHPutOption ==>", theCheapestETHPutOption)
+    let theCheapestETHPutOption = await deriOneV1CharmV02.getMatchedOptionListCharmV02(
+      1611907565, // 2021-01-29 08:06:05
+      1613029394, // 2021-02-11 07:43:14
+      "800000000000000000000",
+      "1200000000000000000000",
+      "5000000000000000000"
+  )
+
+    console.log("theCheapestETHPutOption ==>", theCheapestETHPutOption)
 
     setExpiryDate(theCheapestETHPutOption.expiry.toString())
     setOptionSize(theCheapestETHPutOption.optionSizeInWEI.toString())
@@ -100,7 +111,7 @@ function App() {
 
   const testersss = async (e) => {
     e.preventDefault()
-    let log = await contract.testb()
+    let log = await deriOneV1MainContract.testb()
     //let cc = ethers.BigNumber(log).toNumber()
     console.log(log)
   }
