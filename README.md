@@ -1,3 +1,26 @@
+### How to Run in the forked mainnet
+
+1. Start a forked mainnet server at http://127.0.0.1:8545/
+
+```
+npx hardhat node --fork https://eth-mainnet.alchemyapi.io/v2/YOUR_ALCHEMY_ID
+```
+
+2. Deploy a contract in the smart contract repo
+   \*make sure your abi in the frontend is up-to-date
+
+```
+ npx hardhat run --network localhost scripts/deploy.js
+```
+
+3. Run your frontend app in this repo
+
+```
+npm run start
+```
+
+4. Launch a MetaMask and connect to the local network in the step 1
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
