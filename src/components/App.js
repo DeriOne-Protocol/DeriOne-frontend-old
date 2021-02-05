@@ -65,8 +65,8 @@ function App() {
     let theCheapestETHPutOption = await contract.getTheCheapestETHPutOption(
       24 * 3600, // 24 hours from now in seconds
       100000000000, // USD price decimals are 8 in hegic
-      90000000000, // USD price decimals are 8 in hegic
-      "9000000000000000000"
+      150000000000, // USD price decimals are 8 in hegic
+      "12000000000000000000"
     )
 
     //console.log("theCheapestETHPutOption ==>", theCheapestETHPutOption)
@@ -84,10 +84,13 @@ function App() {
       24 * 3600, // 24 hours from now in seconds
       500000000000, // USD price decimals are 8 in hegic
       90000000000, // USD price decimals are 8 in hegic
-      "6000000000000000000"
+      "5000000000000000000"
     )
 
     //console.log("theCheapestETHPutOption ==>", theCheapestETHPutOption)
+    console.log(
+      ethers.utils.formatEther(theCheapestETHPutOption.premiumInWEI, "ether")
+    )
 
     setExpiryDate(theCheapestETHPutOption.expiry.toString())
     setOptionSize(theCheapestETHPutOption.optionSizeInWEI.toString())
