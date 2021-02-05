@@ -1,7 +1,7 @@
 {
   "_format": "hh-sol-artifact-1",
-  "contractName": "IHegicETHOptionV888",
-  "sourceName": "contracts/interfaces/IHegicETHOptionV888.sol",
+  "contractName": "IETHOptionHegicV888",
+  "sourceName": "contracts/interfaces/IETHOptionHegicV888.sol",
   "abi": [
     {
       "inputs": [
@@ -21,7 +21,7 @@
           "type": "uint256"
         },
         {
-          "internalType": "enum IHegicETHOptionV888.OptionType",
+          "internalType": "enum IETHOptionHegicV888.OptionType",
           "name": "optionType",
           "type": "uint8"
         }
