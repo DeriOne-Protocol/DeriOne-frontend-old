@@ -33,6 +33,9 @@ export const Form = styled.form`
   );
   border-radius: 5px;
   padding: 10px;
+  font-weight: 500;
+  font-size: 1.1rem;
+  color: black;
 
   -webkit-box-shadow: 2px 5px 9px 4px rgba(0, 0, 0, 0.74),
     inset 0px 0px 9px 4px rgba(255, 254, 253, 0.65);

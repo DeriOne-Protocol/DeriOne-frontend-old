@@ -197,7 +197,6 @@ function App() {
               getCharmsList={getCharmsList}
               getHegicList={getHegicList}
             />
-            <OptionsTable />
           </Content>
         </BrowserRouter>
       </TableDataContext>
