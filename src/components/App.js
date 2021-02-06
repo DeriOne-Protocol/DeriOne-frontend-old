@@ -26,12 +26,19 @@ function App() {
   const [ethPrice, setEthPrice] = useState(undefined)
   const [deriOneV1MainContract, setDeriOneV1Main] = useState(undefined)
   const [deriOneV1CharmV02, setDeriOneV1CharmV02Contract] = useState(undefined)
-  const [deriOneV1HegicV888Contract, setDeriOneV1HegicV888Contract] = useState(undefined)
+  const [deriOneV1HegicV888Contract, setDeriOneV1HegicV888Contract] = useState(
+    undefined
+  )
   const [account, setAccount] = useState(undefined)
-  const [expiryDate, setExpiryDate] = useState(1)
-  const [optionSize, setOptionSize] = useState(1)
-  const [premium, setPremium] = useState(1)
-  const [strikePrice, setStrikePrice] = useState(1)
+  const [expiryDate, setExpiryDate] = useState("...")
+  const [optionSize, setOptionSize] = useState("...")
+  const [premium, setPremium] = useState("...")
+  const [strikePrice, setStrikePrice] = useState("...")
+
+  const [expiryDateCharm, setExpiryDateCharm] = useState("...")
+  const [optionSizeCharm, setOptionSizeCharm] = useState("...")
+  const [premiumCharm, setPremiumCharm] = useState("...")
+  const [strikePriceCharm, setStrikePriceCharm] = useState("...")
 
   const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"
 
@@ -47,9 +54,21 @@ function App() {
       const signer = await provider.getSigner()
       const signerAddress = await signer.getAddress()
 
-      const deriOneV1Main = new Contract(contractAddress, DeriOneV1Main.abi, provider)
-      const deriOneV1CharmV02 = new Contract(contractAddress, DeriOneV1CharmV02.abi, provider)
-      const deriOneV1HegicV888 = new Contract(contractAddress, DeriOneV1HegicV888.abi, provider)
+      const deriOneV1Main = new Contract(
+        contractAddress,
+        DeriOneV1Main.abi,
+        provider
+      )
+      const deriOneV1CharmV02 = new Contract(
+        contractAddress,
+        DeriOneV1CharmV02.abi,
+        provider
+      )
+      const deriOneV1HegicV888 = new Contract(
+        contractAddress,
+        DeriOneV1HegicV888.abi,
+        provider
+      )
       setDeriOneV1Main(deriOneV1Main)
       setDeriOneV1CharmV02Contract(deriOneV1CharmV02)
       setDeriOneV1HegicV888Contract(deriOneV1HegicV888)
@@ -67,53 +86,94 @@ function App() {
     setInterval(getEthPrice, 5000)
   }, [ethPrice])
 
-  const getOptionsList = async (e) => {
-    //e.preventDefault()
+  const getCharmsList = async (
+    expiryTime1,
+    expiryTime2,
+    minStrike,
+    maxStrike,
+    optionSize
+  ) => {
+    //console.log("deriOneV1CharmV02 ==>", deriOneV1CharmV02)
 
-    console.log('deriOneV1CharmV02 ==>', deriOneV1CharmV02);
-
+    //console.log(expiryTime1)
     let theCheapestETHPutOption = await deriOneV1CharmV02.getMatchedOptionListCharmV02(
-      1611907565, // 2021-01-29 08:06:05
-      1613029394, // 2021-02-11 07:43:14
-      "800000000000000000000",
-      "1200000000000000000000",
-      "5000000000000000000"
-  )
-
-    console.log("theCheapestETHPutOption ==>", theCheapestETHPutOption)
-
-    setExpiryDate(theCheapestETHPutOption.expiry.toString())
-    setOptionSize(theCheapestETHPutOption.optionSizeInWEI.toString())
-    setPremium(theCheapestETHPutOption.premiumInWEI.toString())
-    setStrikePrice(theCheapestETHPutOption.strikeInUSD.toString())
-  }
-
-  const tester = async (e) => {
-    e.preventDefault()
-
-    let theCheapestETHPutOption = await contract.getTheCheapestETHPutOption(
-      24 * 3600, // 24 hours from now in seconds
-      500000000000, // USD price decimals are 8 in hegic
-      90000000000, // USD price decimals are 8 in hegic
-      "5000000000000000000"
+      expiryTime1, // 2021-01-29 08:06:05
+      expiryTime2, // 2021-02-11 07:43:14
+      minStrike,
+      maxStrike,
+      optionSize
     )
 
     //console.log("theCheapestETHPutOption ==>", theCheapestETHPutOption)
-    console.log(
-      ethers.utils.formatEther(theCheapestETHPutOption.premiumInWEI, "ether")
-    )
+    // console.log(
+    //   "theCheapestETHPutOption ==>",
+    //   theCheapestETHPutOption[0].expiry.toString()
+    // )
 
-    setExpiryDate(theCheapestETHPutOption.expiry.toString())
-    setOptionSize(theCheapestETHPutOption.optionSizeInWEI.toString())
-    setPremium(theCheapestETHPutOption.premiumInWEI.toString())
-    setStrikePrice(theCheapestETHPutOption.strikeInUSD.toString())
+    const options = {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true,
+    }
+    const expiryFormatted = new Date(
+      parseInt(theCheapestETHPutOption[0].expiry) * 1000
+    ).toLocaleDateString(undefined, options)
+
+    const strikeFormatted = theCheapestETHPutOption[0].strikeUSD / 10 ** 18
+
+    setExpiryDateCharm(expiryFormatted)
+    setPremiumCharm(theCheapestETHPutOption[0].premiumWEI.toString())
+    setStrikePriceCharm(`$${strikeFormatted}`)
   }
 
-  const testersss = async (e) => {
-    e.preventDefault()
-    let log = await deriOneV1MainContract.testb()
-    //let cc = ethers.BigNumber(log).toNumber()
-    console.log(log)
+  const getHegicList = async (
+    expiryTime1,
+    expiryTime2,
+    minStrike,
+    maxStrike,
+    optionSize
+  ) => {
+    let theCheapestETHPutOption = await deriOneV1MainContract.getTheCheapestETHPut(
+      expiryTime2, // 24 hours from now in seconds
+      maxStrike, // USD price decimals are 8 in hegic
+      optionSize
+    )
+
+    //console.log("theCheapestETHPutOption ==>", theCheapestETHPutOption)
+    const optionSizeFormatted = ethers.utils.formatEther(
+      theCheapestETHPutOption.sizeWEI,
+      "ether"
+    )
+
+    const premiumFormatted = ethers.utils.formatEther(
+      theCheapestETHPutOption.premiumWEI,
+      "ether"
+    )
+    //let _premiumFormatted = premiumFormatted.toString().toFixed(4)
+    //console.log(theCheapestETHPutOption.strikeUSD.toString())
+    const strikeFormatted = theCheapestETHPutOption.strikeUSD / 10 ** 8
+
+    const options = {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true,
+    }
+    const expiryFormatted = new Date(
+      parseInt(theCheapestETHPutOption.expiry) * 1000
+    ).toLocaleDateString(undefined, options)
+
+    setExpiryDate(expiryFormatted)
+    setOptionSize(optionSizeFormatted)
+    setPremium(premiumFormatted)
+    setStrikePrice(`$${strikeFormatted}`)
   }
 
   return (
@@ -122,15 +182,21 @@ function App() {
         expiryDate={expiryDate}
         optionSize={optionSize}
         premium={premium}
-        strikePrice={strikePrice}>
+        strikePrice={strikePrice}
+        expiryDateCharm={expiryDateCharm}
+        optionSizeCharm={optionSizeCharm}
+        premiumCharm={premiumCharm}
+        strikePriceCharm={strikePriceCharm}>
         <BrowserRouter>
           <GlobalStyles />
 
           <Header price={ethPrice} />
 
           <Content>
-            <PickerSection getOptionsList={getOptionsList} />
-            <button onClick={tester}>hu</button>
+            <PickerSection
+              getCharmsList={getCharmsList}
+              getHegicList={getHegicList}
+            />
             <OptionsTable />
           </Content>
         </BrowserRouter>
