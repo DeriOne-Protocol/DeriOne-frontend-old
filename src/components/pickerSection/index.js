@@ -55,8 +55,8 @@ const PickerSection = ({ getCharmsList, getHegicList }) => {
     //e.preventDefault()
     let expiryTime1 = e.target.elements[0].value
     let expiryTime2 = e.target.elements[1].value
-    let newExpiryTime1 = formatDate(expiryTime1)
-    let newExpiryTime2 = formatDate(expiryTime2)
+    let newExpiryTime1 = formatDateHegic(expiryTime1)
+    let newExpiryTime2 = formatDateHegic(expiryTime2)
     let minStrike = e.target.elements[2].value * 10 ** 8
 
     let maxStrike = e.target.elements[3].value * 10 ** 8
@@ -110,8 +110,16 @@ const PickerSection = ({ getCharmsList, getHegicList }) => {
     let myDate = date.split("/")
     let newDate = new Date(myDate[2], myDate[1] - 1, myDate[0])
     let dateObject = newDate.getTime() / 1000
+    console.log("Charm " + dateObject)
     return dateObject
-    //console.log(newDate.getTime() / 1000)
+  }
+
+  const formatDateHegic = (date) => {
+    let myDate = date.split("/")
+    let newDate = new Date(myDate[2], myDate[1] - 1, myDate[0])
+    let dateObject = newDate.getTime() / 1000
+    console.log("Hegic " + dateObject)
+    return dateObject
   }
 
   const transformToString = (data) => {
@@ -161,6 +169,7 @@ const PickerSection = ({ getCharmsList, getHegicList }) => {
             </div>
           </Form>
         </PickerDiv>
+        <OptionsTable />
       </Div>
     </>
   )
