@@ -86,7 +86,7 @@ function App() {
     setInterval(getEthPrice, 5000)
   }, [ethPrice])
 
-  const getOptionsList = async (
+  const getCharmsList = async (
     expiryTime1,
     expiryTime2,
     minStrike,
@@ -94,7 +94,7 @@ function App() {
     optionSize
   ) => {
     //console.log("deriOneV1CharmV02 ==>", deriOneV1CharmV02)
-    tester()
+
     //console.log(expiryTime1)
     let theCheapestETHPutOption = await deriOneV1CharmV02.getMatchedOptionListCharmV02(
       expiryTime1, // 2021-01-29 08:06:05
@@ -130,11 +130,17 @@ function App() {
     setStrikePriceCharm(`$${strikeFormatted}`)
   }
 
-  const tester = async (e) => {
+  const getHegicList = async (
+    expiryTime1,
+    expiryTime2,
+    minStrike,
+    maxStrike,
+    optionSize
+  ) => {
     let theCheapestETHPutOption = await deriOneV1MainContract.getTheCheapestETHPut(
-      24 * 3600, // 24 hours from now in seconds
-      90000000000, // USD price decimals are 8 in hegic
-      "5000000000000000000"
+      expiryTime2, // 24 hours from now in seconds
+      maxStrike, // USD price decimals are 8 in hegic
+      optionSize
     )
 
     //console.log("theCheapestETHPutOption ==>", theCheapestETHPutOption)
@@ -170,13 +176,6 @@ function App() {
     setStrikePrice(`$${strikeFormatted}`)
   }
 
-  const testersss = async (e) => {
-    e.preventDefault()
-    let log = await deriOneV1MainContract.testb()
-    //let cc = ethers.BigNumber(log).toNumber()
-    console.log(log)
-  }
-
   return (
     <>
       <TableDataContext
@@ -194,8 +193,10 @@ function App() {
           <Header price={ethPrice} />
 
           <Content>
-            <PickerSection getOptionsList={getOptionsList} />
-            <button onClick={getOptionsList}>hu</button>
+            <PickerSection
+              getCharmsList={getCharmsList}
+              getHegicList={getHegicList}
+            />
             <OptionsTable />
           </Content>
         </BrowserRouter>

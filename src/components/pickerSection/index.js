@@ -5,27 +5,27 @@ import { Link } from "react-router-dom"
 import OptionsTable from "../optionsTable"
 import { ethers } from "ethers"
 
-const PickerSection = ({ getOptionsList }) => {
+const PickerSection = ({ getCharmsList, getHegicList }) => {
   const [optionSizes, setOptionSizes] = useState("")
   const [strikeTo, setStrikeTo] = useState("")
   const [strikeFrom, setStrikeFrom] = useState("")
 
   const ethDecimal = 10 ** 18
 
-  const getData = async (e) => {
-    e.preventDefault()
+  const getCharmData = async (e) => {
+    //e.preventDefault()
 
-    const expiryTime1 = e.target.elements[0].value
-    const expiryTime2 = e.target.elements[1].value
+    let expiryTime1 = e.target.elements[0].value
+    let expiryTime2 = e.target.elements[1].value
     let newExpiryTime1 = formatDate(expiryTime1)
     let newExpiryTime2 = formatDate(expiryTime2)
-    const minStrike = ethers.utils
+    let minStrike = ethers.utils
       .parseEther(e.target.elements[2].value)
       .toString()
-    const maxStrike = ethers.utils
+    let maxStrike = ethers.utils
       .parseEther(e.target.elements[3].value)
       .toString()
-    const optionSize = ethers.utils
+    let optionSize = ethers.utils
       .parseEther(e.target.elements[4].value)
       .toString()
 
@@ -33,22 +33,62 @@ const PickerSection = ({ getOptionsList }) => {
     let newMaxStrike = transformToString(maxStrike)
     let newOptionSize = transformToString(optionSize)
 
-    console.log(
-      newExpiryTime1,
-      newExpiryTime2,
-      typeof newMinStrike,
-      typeof newMaxStrike,
-      typeof newOptionSize,
-      newOptionSize
-    )
+    // console.log(
+    //   newExpiryTime1,
+    //   newExpiryTime2,
+    //   typeof newMinStrike,
+    //   typeof newMaxStrike,
+    //   typeof newOptionSize,
+    //   newOptionSize
+    // )
 
-    getOptionsList(
+    getCharmsList(
       newExpiryTime1,
       newExpiryTime2,
       minStrike,
       maxStrike,
       optionSize
     )
+  }
+
+  const getHegicData = async (e) => {
+    //e.preventDefault()
+    let expiryTime1 = e.target.elements[0].value
+    let expiryTime2 = e.target.elements[1].value
+    let newExpiryTime1 = formatDate(expiryTime1)
+    let newExpiryTime2 = formatDate(expiryTime2)
+    let minStrike = e.target.elements[2].value * 10 ** 8
+
+    let maxStrike = e.target.elements[3].value * 10 ** 8
+
+    let optionSize = ethers.utils
+      .parseEther(e.target.elements[4].value)
+      .toString()
+
+    //let newOptionSize = transformToString(optionSize)
+
+    // console.log(
+    //   newExpiryTime1,
+    //   newExpiryTime2,
+    //   typeof newMinStrike,
+    //   typeof newMaxStrike,
+    //   typeof newOptionSize,
+    //   newOptionSize
+    // )
+
+    getHegicList(
+      newExpiryTime1,
+      newExpiryTime2,
+      minStrike,
+      maxStrike,
+      optionSize
+    )
+  }
+
+  const callBothOptions = (e) => {
+    e.preventDefault()
+    getHegicData(e)
+    getCharmData(e)
   }
 
   const updateOptionSize = (e) => {
@@ -76,7 +116,7 @@ const PickerSection = ({ getOptionsList }) => {
 
   const transformToString = (data) => {
     let stringData = (data * ethDecimal).toString()
-    console.log(stringData)
+    //console.log(stringData)
     return stringData
   }
 
@@ -84,7 +124,7 @@ const PickerSection = ({ getOptionsList }) => {
     <>
       <Div>
         <PickerDiv>
-          <Form onSubmit={getData}>
+          <Form onSubmit={callBothOptions}>
             <div>
               <div>
                 <label>Date Range</label>
