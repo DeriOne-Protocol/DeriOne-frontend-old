@@ -66,3 +66,8 @@ export const ButtonStyle = styled.button`
     background: #0bc8db;
   }
 `
+
+export const Label = styled.label`
+  color: rgb(2, 0, 36);
+  font-size: 1.5rem;
+`

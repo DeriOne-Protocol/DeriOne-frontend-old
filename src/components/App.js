@@ -138,7 +138,12 @@ function App() {
       optionSize
     )
 
-    //console.log("theCheapestETHPutOption ==>", theCheapestETHPutOption)
+    console.log(expiryTime2)
+
+    console.log(
+      "theCheapestETHPutOption ==>",
+      theCheapestETHPutOption.expiry.toString()
+    )
     // const optionSizeFormatted = ethers.utils.formatEther(
     //   theCheapestETHPutOption.sizeWEI,
     //   "ether"
@@ -150,9 +155,7 @@ function App() {
     )
 
     //console.log(theCheapestETHPutOption.strikeUSD.toString())
-    const strikeFormatted = theCheapestETHPutOption.strikeUSD / 10 ** 6
-
-    const optionFormatted = optionSize / 10 ** 10
+    const strikeFormatted = theCheapestETHPutOption.strikeUSD / 10 ** 8
 
     const options = {
       weekday: "long",
@@ -168,7 +171,7 @@ function App() {
     ).toLocaleDateString(undefined, options)
 
     setExpiryDate(expiryFormatted)
-    setOptionSize(optionFormatted)
+    setOptionSize(optionSize)
     setPremium(`${premiumFormatted} ETH`)
     setStrikePrice(`$${strikeFormatted}`)
   }
