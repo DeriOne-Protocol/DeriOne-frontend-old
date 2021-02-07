@@ -13,8 +13,6 @@ const PickerSection = ({ getCharmsList, getHegicList }) => {
   const ethDecimal = 10 ** 18
 
   const getCharmData = async (e) => {
-    //e.preventDefault()
-
     let expiryTime1 = e.target.elements[0].value
     let expiryTime2 = e.target.elements[1].value
     let newExpiryTime1 = formatDate(expiryTime1)
@@ -25,22 +23,7 @@ const PickerSection = ({ getCharmsList, getHegicList }) => {
     let maxStrike = ethers.utils
       .parseEther(e.target.elements[3].value)
       .toString()
-    let optionSize = ethers.utils
-      .parseEther(e.target.elements[4].value)
-      .toString()
-
-    let newMinStrike = transformToString(minStrike)
-    let newMaxStrike = transformToString(maxStrike)
-    let newOptionSize = transformToString(optionSize)
-
-    // console.log(
-    //   newExpiryTime1,
-    //   newExpiryTime2,
-    //   typeof newMinStrike,
-    //   typeof newMaxStrike,
-    //   typeof newOptionSize,
-    //   newOptionSize
-    // )
+    let optionSize = e.target.elements[4].value
 
     getCharmsList(
       newExpiryTime1,
@@ -52,7 +35,6 @@ const PickerSection = ({ getCharmsList, getHegicList }) => {
   }
 
   const getHegicData = async (e) => {
-    //e.preventDefault()
     let expiryTime1 = e.target.elements[0].value
     let expiryTime2 = e.target.elements[1].value
     let newExpiryTime1 = formatDateHegic(expiryTime1)
@@ -61,20 +43,7 @@ const PickerSection = ({ getCharmsList, getHegicList }) => {
 
     let maxStrike = e.target.elements[3].value * 10 ** 8
 
-    let optionSize = ethers.utils
-      .parseEther(e.target.elements[4].value)
-      .toString()
-
-    //let newOptionSize = transformToString(optionSize)
-
-    // console.log(
-    //   newExpiryTime1,
-    //   newExpiryTime2,
-    //   typeof newMinStrike,
-    //   typeof newMaxStrike,
-    //   typeof newOptionSize,
-    //   newOptionSize
-    // )
+    let optionSize = e.target.elements[4].value
 
     getHegicList(
       newExpiryTime1,
@@ -110,7 +79,6 @@ const PickerSection = ({ getCharmsList, getHegicList }) => {
     let myDate = date.split("/")
     let newDate = new Date(myDate[2], myDate[1] - 1, myDate[0])
     let dateObject = newDate.getTime() / 1000
-    console.log("Charm " + dateObject)
     return dateObject
   }
 
@@ -118,14 +86,7 @@ const PickerSection = ({ getCharmsList, getHegicList }) => {
     let myDate = date.split("/")
     let newDate = new Date(myDate[2], myDate[1] - 1, myDate[0])
     let dateObject = newDate.getTime() / 1000
-    console.log("Hegic " + dateObject)
     return dateObject
-  }
-
-  const transformToString = (data) => {
-    let stringData = (data * ethDecimal).toString()
-    //console.log(stringData)
-    return stringData
   }
 
   return (

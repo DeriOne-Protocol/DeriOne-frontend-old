@@ -127,35 +127,32 @@ function App() {
 
     setExpiryDateCharm(expiryFormatted)
     setPremiumCharm(theCheapestETHPutOption[0].premiumWEI.toString())
+    setOptionSizeCharm(optionSize)
     setStrikePriceCharm(`$${strikeFormatted}`)
   }
 
-  const getHegicList = async (
-    expiryTime1,
-    expiryTime2,
-    minStrike,
-    maxStrike,
-    optionSize
-  ) => {
-    let theCheapestETHPutOption = await deriOneV1MainContract.getTheCheapestETHPut(
+  const getHegicList = async (expiryTime2, maxStrike, optionSize) => {
+    let theCheapestETHPutOption = await deriOneV1HegicV888Contract.getETHPutHegicV888(
       expiryTime2, // 24 hours from now in seconds
       maxStrike, // USD price decimals are 8 in hegic
       optionSize
     )
 
     //console.log("theCheapestETHPutOption ==>", theCheapestETHPutOption)
-    const optionSizeFormatted = ethers.utils.formatEther(
-      theCheapestETHPutOption.sizeWEI,
-      "ether"
-    )
+    // const optionSizeFormatted = ethers.utils.formatEther(
+    //   theCheapestETHPutOption.sizeWEI,
+    //   "ether"
+    // )
 
     const premiumFormatted = ethers.utils.formatEther(
       theCheapestETHPutOption.premiumWEI,
       "ether"
     )
-    //let _premiumFormatted = premiumFormatted.toString().toFixed(4)
+
     //console.log(theCheapestETHPutOption.strikeUSD.toString())
-    const strikeFormatted = theCheapestETHPutOption.strikeUSD / 10 ** 8
+    const strikeFormatted = theCheapestETHPutOption.strikeUSD / 10 ** 6
+
+    const optionFormatted = optionSize / 10 ** 10
 
     const options = {
       weekday: "long",
@@ -171,8 +168,8 @@ function App() {
     ).toLocaleDateString(undefined, options)
 
     setExpiryDate(expiryFormatted)
-    setOptionSize(optionSizeFormatted)
-    setPremium(premiumFormatted)
+    setOptionSize(optionFormatted)
+    setPremium(`${premiumFormatted} ETH`)
     setStrikePrice(`$${strikeFormatted}`)
   }
 

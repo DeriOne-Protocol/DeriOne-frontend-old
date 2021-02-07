@@ -13,11 +13,11 @@ import {
 
 const optionsData = [
   {
-    Protocol: "Hegic",
+    Premium: "$1000",
     ExpiryDate: "40%",
     OptionSize: "$900",
-    Premium: "$1000",
     StrikePrice: "$500",
+    Protocol: "Hegic",
   },
 ]
 
@@ -33,13 +33,6 @@ const OptionsTable = () => {
   const strikePriceCharm = useContext(strikePriceCharmContext)
 
   const [data, setData] = useState([])
-
-  const formatDollar = (number, maximumSignificantDigits) =>
-    new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
-      maximumSignificantDigits,
-    }).format(number)
 
   useEffect(() => {
     const newTable = optionsData.map((values) => {
@@ -62,22 +55,22 @@ const OptionsTable = () => {
       <table className="ui single line table">
         <thead>
           <tr>
-            <th>Protocol</th>
+            <th>Premium</th>
             <th>Expiry Date</th>
             <th>Option Size</th>
-            <th>Premium</th>
             <th>Strike Price</th>
+            <th>Protocol</th>
           </tr>
         </thead>
 
         <tbody>
           {data.map((x) => (
             <tr key={x}>
-              <td>{x.Protocol}</td>
+              <td>{x.Premium}</td>
               <td>{x.ExpiryDate}</td>
               <td>{x.OptionSize}</td>
-              <td>{x.Premium}</td>
               <td>{x.StrikePrice}</td>
+              <td>{x.Protocol}</td>
             </tr>
           ))}
         </tbody>
@@ -85,11 +78,11 @@ const OptionsTable = () => {
         <tbody>
           {data.map((x) => (
             <tr key={x}>
-              <td>Charm</td>
-              <td>{expiryDateCharm}</td>
-              <td>N/A</td>
               <td>{premiumCharm}</td>
+              <td>{expiryDateCharm}</td>
+              <td>{optionSizeCharm}</td>
               <td>{strikePriceCharm}</td>
+              <td>Charm</td>
             </tr>
           ))}
         </tbody>
